@@ -1,17 +1,23 @@
-import React from 'react'
+import React from "react";
+import "../styles/classroom.css";
 
-export default function MessageBoard({ transactions }){
-  if(!transactions || transactions.length === 0) return <div className="panel muted">No transactions yet</div>
+function MessageBoard({ messages }) {
   return (
-    <div className="tx-list">
-      {transactions.map(t=> (
-        <div className="tx" key={t.id || Math.random()}>
-          <div>
-            <div style={{fontWeight:700}}>{(t.type||'transfer').toUpperCase()}</div>
-            <div className="muted">{t.memo || ''} • {new Date(t.date).toLocaleString()}</div>
+    <div className="message-board">
+      <h2>Transaction Feed</h2>
+      {messages && messages.length > 0 ? (
+        messages.map((msg, i) => (
+          <div key={i} className="message">
+            <span className="user">{msg.user}</span>{" "}
+            <span className="action">{msg.action}</span>{" "}
+            <span className="amount">{msg.amount} Kuai</span>
           </div>
-          <div style={{fontWeight:800}}>{(t.to === t.myAccountId ? '+' : '-')}{Number(t.amount).toFixed(2)} KUAI</div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p>No recent transactions yet.</p>
+      )}
     </div>
-  )
+  );
+}
+
+export default MessageBoard;
