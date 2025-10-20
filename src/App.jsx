@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import EmployeeLogin from "./components/EmployeeLogin";
-import AdminDashboard from "./components/AdminDashboard";
+import AdminBoard from "./components/AdminBoard"; // correct import
 import Welcome from './pages/Welcome'
 import Login from './pages/Login'
 import StudentDashboard from './pages/StudentDashboard'
@@ -39,7 +39,7 @@ export default function App() {
         {view === 'employee-login' && <EmployeeLogin onSuccess={handleEmployeeLoginSuccess} />}
         {view === 'student' && session && <StudentDashboard session={session} onLogout={handleLogout} />}
         {view === 'teacher' && session && <TeacherDashboard session={session} onLogout={handleLogout} />}
-        {view === 'admin' && <AdminDashboard onLogout={handleLogout} />}
+        {view === 'admin' && <AdminBoard onLogout={handleLogout} />}
       </div>
     </div>
   )
