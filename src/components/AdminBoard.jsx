@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import API_BASE from "../config"; // optional: put https://website1-v07a.onrender.com in config.js
+
+const API_BASE = "https://website1-v07a.onrender.com";
 
 export default function AdminBoard({ onLogout }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch all users
   const fetchUsers = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/users`);
@@ -22,20 +22,23 @@ export default function AdminBoard({ onLogout }) {
     fetchUsers();
   }, []);
 
-  // Helper: log messages
-  const logMessage = async (text) => {
+  const logMessage = async (user, action, amount = null) => {
     try {
+      let text = "";
+      if (action === "reward") text = `${user.name || "Unnamed User"} was rewarded ${amount} Kuai`;
+      if (action === "deduct") text = `${user.name || "Unnamed User"} had ${amount} Kuai deducted`;
+      if (action === "reset") text = `${user.name || "Unnamed User"} balance was reset to 0 Kuai`;
+
       await fetch(`${API_BASE}/api/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, userId: user._id }),
       });
     } catch (err) {
       console.error("Failed to log message:", err);
     }
   };
 
-  // Reward user
   const handleReward = async (user) => {
     const amount = prompt("Enter Kuai amount to reward:");
     if (!amount || isNaN(amount)) return alert("Invalid amount");
@@ -46,7 +49,7 @@ export default function AdminBoard({ onLogout }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: Number(amount) }),
       });
-      await logMessage(`${user.name || "Unnamed User"} was rewarded ${amount} Kuai`);
+      await logMessage(user, "reward", amount);
       await fetchUsers();
     } catch (err) {
       console.error("Reward failed:", err);
@@ -54,7 +57,6 @@ export default function AdminBoard({ onLogout }) {
     }
   };
 
-  // Deduct user
   const handleDeduct = async (user) => {
     const amount = prompt("Enter Kuai amount to deduct:");
     if (!amount || isNaN(amount)) return alert("Invalid amount");
@@ -65,7 +67,7 @@ export default function AdminBoard({ onLogout }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: Number(amount) }),
       });
-      await logMessage(`${user.name || "Unnamed User"} had ${amount} Kuai deducted`);
+      await logMessage(user, "deduct", amount);
       await fetchUsers();
     } catch (err) {
       console.error("Deduct failed:", err);
@@ -73,14 +75,15 @@ export default function AdminBoard({ onLogout }) {
     }
   };
 
-  // Reset all balances
   const handleResetAll = async () => {
     const confirmReset = window.confirm("Reset ALL balances to 0 Kuai?");
     if (!confirmReset) return;
 
     try {
-      await fetch(`${API_BASE}/api/reset`, { method: "POST" });
-      await logMessage("All user balances have been reset to 0 Kuai");
+      for (let user of users) {
+        await fetch(`${API_BASE}/api/reset/${user._id}`, { method: "POST" });
+        await logMessage(user, "reset");
+      }
       await fetchUsers();
       alert("All balances reset");
     } catch (err) {
@@ -156,3 +159,4 @@ export default function AdminBoard({ onLogout }) {
     </div>
   );
 }
+
