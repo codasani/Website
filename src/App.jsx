@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import EmployeeLogin from "./components/EmployeeLogin";
-import AdminBoard from "./components/AdminBoard"; // correct import
+import AdminBoard from "./components/AdminBoard";
 import Welcome from './pages/Welcome'
 import Login from './pages/Login'
 import StudentDashboard from './pages/StudentDashboard'
@@ -44,3 +44,4 @@ export default function App() {
     </div>
   )
 }
+
