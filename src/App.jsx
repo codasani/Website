@@ -1,4 +1,6 @@
 import React, {useState} from 'react'
+import EmployeeLogin from "./components/EmployeeLogin";
+import AdminDashboard from "./components/AdminDashboard";
 import Welcome from './pages/Welcome'
 import Login from './pages/Login'
 import StudentDashboard from './pages/StudentDashboard'
