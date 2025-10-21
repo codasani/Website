@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './classroom.css';
+import './styles/classroom.css';
 import EmployeeLogin from "./components/EmployeeLogin.jsx"
 import AdminBoard from "./components/AdminBoard.jsx"
 import Welcome from "./pages/Welcome.jsx"
