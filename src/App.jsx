@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import EmployeeLogin from "./components/EmployeeLogin";
-import AdminBoard from "./components/AdminBoard.jsx";
-import Welcome from './pages/Welcome'
-import Login from './pages/Login'
-import StudentDashboard from './pages/StudentDashboard'
-import TeacherDashboard from './pages/TeacherDashboard'
+import EmployeeLogin from "./components/EmployeeLogin.jsx"
+import AdminBoard from "./components/AdminBoard.jsx"
+import Welcome from './pages/Welcome.jsx'
+import Login from './pages/Login.jsx'
+import StudentDashboard from './pages/StudentDashboard.jsx'
+import TeacherDashboard from './pages/TeacherDashboard.jsx'
 
 export default function App() {
   const [view, setView] = useState('welcome')
