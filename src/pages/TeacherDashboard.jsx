@@ -1,5 +1,5 @@
 import React from "react";
-import MessageBoard from "../components/MessageBoard";
+import MessageBoard from "../components/MessageBoard.jsx"
 
 export default function TeacherDashboard({ session, onLogout }) {
   return (
